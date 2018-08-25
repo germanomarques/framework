@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot;
 
-use Illuminate\Filesystem\Cache;
+use Illuminate\Cache\Repository as CacheRepository;
 use FondBot\Events\MessageReceived;
 use FondBot\Channels\ChannelManager;
 use Illuminate\Support\ServiceProvider;
@@ -31,7 +31,7 @@ class FondBotServiceProvider extends ServiceProvider
     protected function registerConversationManager(): void
     {
         $this->app->singleton(ConversationManagerContract::class, function () {
-            return new ConversationManager($this->app, $this->app[Cache::class]);
+            return new ConversationManager($this->app, $this->app[CacheRepository::class]);
         });
 
         $this->app->alias(ConversationManagerContract::class, ConversationManager::class);
