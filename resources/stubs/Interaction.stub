@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DummyRootNamespaceDummyNamespace;
 
-use FondBot\Conversation\Interaction;
 use FondBot\Events\MessageReceived;
+use FondBot\Conversation\Interaction;
 
 class DummyClass extends Interaction
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DummyRootNamespaceDummyNamespace;
 
-use FondBot\Contracts\Conversation\Activator;
 use FondBot\Events\MessageReceived;
+use FondBot\Contracts\Conversation\Activator;
 
 class DummyClass implements Activator
 {

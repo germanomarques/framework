@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use FondBot\FondBot;
 use Illuminate\Support\ServiceProvider;
+use FondBot\FondBotApplicationServiceProvider as ServiceProvider;
 
 class FondBotServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,12 @@ class FondBotServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        parent::boot();
+    }
+
+    protected function intents(): void
+    {
+        FondBot::intentsIn(app_path('Intents'));
     }
 
     /**

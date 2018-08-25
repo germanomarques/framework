@@ -2,8 +2,10 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
+    ->in(__DIR__.'/resources')
     ->in(__DIR__.'/src')
     ->in(__DIR__.'/tests')
+    ->name('*.stub')
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
