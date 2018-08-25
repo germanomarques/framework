@@ -13,13 +13,6 @@ use Illuminate\Support\Collection;
 interface Manager
 {
     /**
-     * Register channels.
-     *
-     * @param array $channels
-     */
-    public function register(array $channels): void;
-
-    /**
      * Get all channels.
      *
      * @return Collection

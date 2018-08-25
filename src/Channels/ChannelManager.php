@@ -20,21 +20,11 @@ class ChannelManager extends Manager implements ManagerContract
     /** @var Collection */
     private $channels;
 
-    public function __construct($app)
+    public function __construct($app, Collection $channels)
     {
         parent::__construct($app);
 
-        $this->channels = collect([]);
-    }
-
-    /**
-     * Register channels.
-     *
-     * @param array $channels
-     */
-    public function register(array $channels): void
-    {
-        $this->channels = collect($channels);
+        $this->channels = $channels;
     }
 
     /**

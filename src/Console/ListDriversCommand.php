@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Toolbelt;
+namespace FondBot\Console;
 
-use FondBot\Foundation\API;
+use FondBot\Foundation\Api;
 use Illuminate\Console\Command;
 use FondBot\Channels\ChannelManager;
 use GuzzleHttp\Exception\ClientException;
@@ -14,7 +14,7 @@ class ListDriversCommand extends Command
     protected $signature = 'fondbot:driver:list';
     protected $description = 'List add installed drivers';
 
-    public function handle(API $api, ChannelManager $manager): void
+    public function handle(Api $api, ChannelManager $manager): void
     {
         try {
             $installedDrivers = collect($manager->getDrivers())->keys()->toArray();
