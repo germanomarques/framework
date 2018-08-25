@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Foundation\Middleware;
+namespace FondBot\Foundation\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

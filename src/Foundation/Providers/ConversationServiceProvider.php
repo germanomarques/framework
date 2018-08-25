@@ -55,6 +55,7 @@ class ConversationServiceProvider extends ServiceProvider
      * Load intents from path.
      *
      * @param string $path
+     * @throws \ReflectionException
      */
     protected function load(string $path): void
     {

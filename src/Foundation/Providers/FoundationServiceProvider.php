@@ -12,7 +12,7 @@ class FoundationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(Kernel::class, function () {
-            return new Kernel;
+            return new Kernel();
         });
     }
 }
