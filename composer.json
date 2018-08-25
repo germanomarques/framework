@@ -54,7 +54,7 @@
     },
     "laravel": {
       "providers": [
-        "FondBot\\Foundation\\ServiceProvider"
+        "FondBot\\FondBotServiceProvider"
       ]
     }
   },
