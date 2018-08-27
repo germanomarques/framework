@@ -28,6 +28,9 @@ class FondBotServiceProvider extends ServiceProvider
         $this->registerEventListeners();
     }
 
+    /**
+     * Register conversation manager.
+     */
     protected function registerConversationManager(): void
     {
         $this->app->singleton(ConversationManagerContract::class, function () {
@@ -37,6 +40,9 @@ class FondBotServiceProvider extends ServiceProvider
         $this->app->alias(ConversationManagerContract::class, ConversationManager::class);
     }
 
+    /**
+     * Register channel manager.
+     */
     protected function registerChannelManager(): void
     {
         $this->app->singleton(ChannelManagerContract::class, function () {
@@ -50,6 +56,9 @@ class FondBotServiceProvider extends ServiceProvider
         $this->app->alias(ChannelManagerContract::class, ChannelManager::class);
     }
 
+    /**
+     * Register default event listeners.
+     */
     protected function registerEventListeners(): void
     {
         /** @var Dispatcher $events */
