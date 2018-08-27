@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FondBot\Tests\Unit\Channels;
 
 use FondBot\Tests\TestCase;
-use FondBot\Channels\Channel;
 use FondBot\Tests\Mocks\FakeDriver;
 use FondBot\Channels\ChannelManager;
 
