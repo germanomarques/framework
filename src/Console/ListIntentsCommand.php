@@ -12,9 +12,18 @@ class ListIntentsCommand extends Command
     protected $signature = 'fondbot:intent:list';
     protected $description = 'List all registered intents';
 
-    public function handle(Manager $manager): void
+    private $manager;
+
+    public function __construct(Manager $manager)
     {
-        $rows = collect($manager->getIntents())
+        parent::__construct();
+
+        $this->manager = $manager;
+    }
+
+    public function handle(): void
+    {
+        $rows = collect($this->manager->getIntents())
             ->transform(function ($item) {
                 return [$item];
             })

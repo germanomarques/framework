@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FondBot\Tests\Unit\Channels;
 
 use FondBot\Tests\TestCase;
+use FondBot\Channels\Channel;
 use FondBot\Tests\Mocks\FakeDriver;
 use FondBot\Channels\ChannelManager;
 
@@ -19,10 +20,11 @@ class ChannelManagerTest extends TestCase
         ];
         $driver = new FakeDriver;
 
-        $manager = new ChannelManager($this->app, collect([$name => $parameters]));
+        $manager = new ChannelManager($this->app);
         $manager->extend('fake', function () use (&$driver) {
             return $driver;
         });
+        $manager->register([$name => $parameters]);
 
         $result = $manager->create($name);
 
@@ -32,14 +34,16 @@ class ChannelManagerTest extends TestCase
 
     public function testAll(): void
     {
-        $manager = new ChannelManager($this->app, collect(['foo' => ['foo' => 'bar']]));
+        $manager = new ChannelManager($this->app);
+        $manager->register(['foo' => ['foo' => 'bar']]);
 
         $this->assertEquals(collect(['foo' => ['foo' => 'bar']]), $manager->all());
     }
 
     public function testGetByDriver(): void
     {
-        $manager = new ChannelManager($this->app, collect(['foo' => ['driver' => 'foo'], 'bar' => ['driver' => FakeDriver::class]]));
+        $manager = new ChannelManager($this->app);
+        $manager->register(['foo' => ['driver' => 'foo'], 'bar' => ['driver' => FakeDriver::class]]);
 
         $this->assertEquals(collect(['foo' => ['driver' => 'foo']]), $manager->getByDriver('foo'));
         $this->assertEquals(collect(['bar' => ['driver' => FakeDriver::class]]), $manager->getByDriver(FakeDriver::class));
@@ -51,14 +55,14 @@ class ChannelManagerTest extends TestCase
      */
     public function testCreateException(): void
     {
-        $manager = new ChannelManager($this->app, collect([]));
+        $manager = new ChannelManager($this->app);
 
         $manager->create('fake');
     }
 
     public function testNoDefaultDriver(): void
     {
-        $manager = new ChannelManager($this->app, collect([]));
+        $manager = new ChannelManager($this->app);
 
         $this->assertNull($manager->getDefaultDriver());
     }

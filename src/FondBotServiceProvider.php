@@ -26,9 +26,38 @@ class FondBotServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerConversationManager();
-        $this->registerChannelManager();
         $this->registerEventListeners();
         $this->registerRoutes();
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->registerChannelManager();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\MakeIntentCommand::class,
+                Console\MakeInteractionCommand::class,
+                Console\MakeActivatorCommand::class,
+                Console\ListDriversCommand::class,
+                Console\InstallDriverCommand::class,
+                Console\ListChannelsCommand::class,
+                Console\ListIntentsCommand::class,
+            ]);
+
+            $this->publishes([
+                __DIR__.'/../resources/stubs/FondBotServiceProvider.stub' => app_path('Providers/FondBotServiceProvider.php'),
+            ], 'fondbot-provider');
+
+            $this->publishes([
+                __DIR__.'/../config/fondbot.php' => config_path('fondbot.php'),
+            ], 'fondbot-config');
+        }
     }
 
     /**
@@ -48,12 +77,16 @@ class FondBotServiceProvider extends ServiceProvider
      */
     protected function registerChannelManager(): void
     {
-        $this->app->singleton(ChannelManagerContract::class, function () {
-            $channels = collect(config('fondbot.channels'))->mapWithKeys(function (array $parameters, string $name) {
-                return [$name => $parameters];
-            });
+        $this->app->singleton(ChannelManagerContract::class, function ($app) {
+            return tap(new ChannelManager($app), function (ChannelManager $manager) {
+                $channels = collect(config('fondbot.channels'))
+                    ->mapWithKeys(function (array $parameters, string $name) {
+                        return [$name => $parameters];
+                    })
+                    ->toArray();
 
-            return new ChannelManager($this->app, $channels);
+                $manager->register($channels);
+            });
         });
 
         $this->app->alias(ChannelManagerContract::class, ChannelManager::class);
@@ -82,33 +115,5 @@ class FondBotServiceProvider extends ServiceProvider
             ->group(function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/webhooks.php');
             });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\MakeIntentCommand::class,
-                Console\MakeInteractionCommand::class,
-                Console\MakeActivatorCommand::class,
-                Console\ListDriversCommand::class,
-                Console\InstallDriverCommand::class,
-                Console\ListChannelsCommand::class,
-                Console\ListIntentsCommand::class,
-            ]);
-
-            $this->publishes([
-                __DIR__.'/../resources/stubs/FondBotServiceProvider.stub' => app_path('Providers/FondBotServiceProvider.php'),
-            ], 'fondbot-provider');
-
-            $this->publishes([
-                __DIR__.'/../config/fondbot.php' => config_path('fondbot.php'),
-            ], 'fondbot-config');
-        }
     }
 }

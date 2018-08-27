@@ -54,7 +54,6 @@ class FondBot
      *
      * @param  string $directory
      * @return void
-     * @throws \ReflectionException
      */
     public static function intentsIn(string $directory): void
     {

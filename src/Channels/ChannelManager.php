@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Channels;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Collection;
+use Illuminate\Foundation\Application;
 use FondBot\Channels\Exceptions\ChannelNotFound;
 use FondBot\Contracts\Channels\Manager as ManagerContract;
 
@@ -21,11 +21,21 @@ class ChannelManager extends Manager implements ManagerContract
     /** @var Collection */
     private $channels;
 
-    public function __construct(Application $app, Collection $channels)
+    public function __construct(Application $app)
     {
         parent::__construct($app);
 
-        $this->channels = $channels;
+        $this->channels = collect([]);
+    }
+
+    /**
+     * Register channels.
+     *
+     * @param array $channels
+     */
+    public function register(array $channels): void
+    {
+        $this->channels = collect($channels);
     }
 
     /**

@@ -14,11 +14,22 @@ class ListDriversCommand extends Command
     protected $signature = 'fondbot:driver:list';
     protected $description = 'List add installed drivers';
 
-    public function handle(Api $api, ChannelManager $manager): void
+    private $api;
+    private $channelManager;
+
+    public function __construct(Api $api, ChannelManager $channelManager)
+    {
+        parent::__construct();
+
+        $this->api = $api;
+        $this->channelManager = $channelManager;
+    }
+
+    public function handle(): void
     {
         try {
-            $installedDrivers = collect($manager->getDrivers())->keys()->toArray();
-            $availableDrivers = $api->getDrivers();
+            $installedDrivers = collect($this->channelManager->getDrivers())->keys()->toArray();
+            $availableDrivers = $this->api->getDrivers();
 
             $rows = collect($availableDrivers)
                 ->transform(function ($item) use ($installedDrivers) {
