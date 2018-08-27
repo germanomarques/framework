@@ -6,7 +6,7 @@ namespace FondBot;
 
 use Illuminate\Support\ServiceProvider;
 
-class FondBotApplicationServiceProvider extends ServiceProvider
+abstract class FondBotApplicationServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -15,11 +15,11 @@ class FondBotApplicationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        FondBot::routes();
+        $this->intents();
     }
 
-    protected function intents(): void
-    {
-        FondBot::intentsIn(app_path('Intents'));
-    }
+    /**
+     * Register intents.
+     */
+    abstract protected function intents(): void;
 }

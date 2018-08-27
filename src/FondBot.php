@@ -9,8 +9,6 @@ use ReflectionClass;
 use Illuminate\Support\Str;
 use FondBot\Conversation\Intent;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Support\Facades\Route;
-use FondBot\Foundation\Http\Middleware\InitializeKernel;
 
 class FondBot
 {
@@ -91,22 +89,5 @@ class FondBot
     public static function fallbackIntent(string $intent): void
     {
         static::$fallbackIntent = $intent;
-    }
-
-    /**
-     * Register the FondBot routes.
-     *
-     * @return void
-     */
-    public static function routes(): void
-    {
-        Route::middleware(InitializeKernel::class)
-            ->namespace('FondBot\Foundation\Http\Controllers')
-            ->group(function () {
-                Route::group(['middleware' => 'fondbot.webhook'], function () {
-                    Route::get('/fondbot/{channel}/{secret?}', 'WebhookController@store')->name('fondbot.webhook');
-                    Route::post('/fondbot/{channel}/{secret?}', 'WebhookController@store')->name('fondbot.webhook');
-                });
-            });
     }
 }

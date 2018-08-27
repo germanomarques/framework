@@ -6,11 +6,13 @@ namespace FondBot;
 
 use FondBot\Events\MessageReceived;
 use FondBot\Channels\ChannelManager;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Events\Dispatcher;
 use FondBot\Conversation\ConversationManager;
 use Illuminate\Cache\Repository as CacheRepository;
 use FondBot\Foundation\Listeners\HandleConversation;
+use FondBot\Foundation\Http\Middleware\InitializeKernel;
 use FondBot\Contracts\Channels\Manager as ChannelManagerContract;
 use FondBot\Contracts\Conversation\Manager as ConversationManagerContract;
 
@@ -26,6 +28,7 @@ class FondBotServiceProvider extends ServiceProvider
         $this->registerConversationManager();
         $this->registerChannelManager();
         $this->registerEventListeners();
+        $this->registerRoutes();
     }
 
     /**
@@ -65,6 +68,20 @@ class FondBotServiceProvider extends ServiceProvider
         $events = $this->app['events'];
 
         $events->listen(MessageReceived::class, HandleConversation::class);
+    }
+
+    /**
+     * Register routes.
+     */
+    protected function registerRoutes(): void
+    {
+        Route::middleware(InitializeKernel::class)
+            ->namespace('FondBot\Foundation\Http\Controllers')
+            ->as('fondbot.')
+            ->prefix('fondbot')
+            ->group(function () {
+                $this->loadRoutesFrom(__DIR__.'/../routes/webhooks.php');
+            });
     }
 
     /**
