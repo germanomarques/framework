@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace FondBot\Channels;
 
+use Illuminate\Support\Str;
+use FondBot\Contracts\Event;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Contracts\Channels\Driver as DriverContract;
-use Illuminate\Support\Str;
 
 abstract class Driver implements DriverContract
 {
