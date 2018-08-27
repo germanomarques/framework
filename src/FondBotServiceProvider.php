@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FondBot;
 
-use Illuminate\Cache\Repository as CacheRepository;
 use FondBot\Events\MessageReceived;
 use FondBot\Channels\ChannelManager;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Events\Dispatcher;
 use FondBot\Conversation\ConversationManager;
+use Illuminate\Cache\Repository as CacheRepository;
 use FondBot\Foundation\Listeners\HandleConversation;
 use FondBot\Contracts\Channels\Manager as ChannelManagerContract;
 use FondBot\Contracts\Conversation\Manager as ConversationManagerContract;
