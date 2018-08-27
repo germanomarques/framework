@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Channels;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Collection;
 use FondBot\Channels\Exceptions\ChannelNotFound;
@@ -20,7 +21,7 @@ class ChannelManager extends Manager implements ManagerContract
     /** @var Collection */
     private $channels;
 
-    public function __construct($app, Collection $channels)
+    public function __construct(Application $app, Collection $channels)
     {
         parent::__construct($app);
 
