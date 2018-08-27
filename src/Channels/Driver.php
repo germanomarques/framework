@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace FondBot\Channels;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Contracts\Channels\Driver as DriverContract;
+use Illuminate\Support\Str;
 
 abstract class Driver implements DriverContract
 {
     protected $client;
+    protected $templateCompiler;
+
+    public function __construct(TemplateCompiler $templateCompiler = null)
+    {
+        $this->templateCompiler = $templateCompiler;
+    }
 
     /**
      * Get driver short name.
@@ -55,12 +61,15 @@ abstract class Driver implements DriverContract
     }
 
     /**
-     * Get template compiler instance.
+     * Create HTTP response.
      *
-     * @return TemplateCompiler|null
+     * @param Request $request
+     * @param Event $event
+     *
+     * @return mixed
      */
-    public function getTemplateCompiler(): ?TemplateCompiler
+    public function createResponse(Request $request, Event $event)
     {
-        return null;
+        return [];
     }
 }
